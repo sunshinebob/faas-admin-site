@@ -1,6 +1,11 @@
 <template>
   <div class="sideItem" v-if="!item.hidden">
-    <template v-if="hasOnlyChild(item.children, item)">
+    <template
+      v-if="
+        hasOnlyChild(item.children, item) &&
+          (!childItem.children || childItem.noChild)
+      "
+    >
       <page-link v-if="childItem.meta" :to="resolvePath(childItem.path)">
         <el-menu-item :index="resolvePath(childItem.path)">
           <i :class="childItem.meta.icon ? childItem.meta.icon : ''"></i>
@@ -54,7 +59,6 @@
             return true
           }
         })
-        console.log(newChildren.length + 1)
         if (newChildren.length === 1 && !item.meta) {
           this.childItem = newChildren[0]
           return true
@@ -63,7 +67,6 @@
           this.childItem = { ...item, path: '', noChild: true }
           return true
         }
-        console.log('aaa')
         return false
       },
       resolvePath(router) {
