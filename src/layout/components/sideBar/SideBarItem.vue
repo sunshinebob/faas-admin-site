@@ -1,25 +1,19 @@
 <template>
-  <div class="sideItem" v-if="!item.hidden">
-    <template v-if="hasOnlyChild(item.children, item)">
-      <page-link v-if="childItem.meta" :to="resolvePath(childItem.path)">
-        <el-menu-item :index="resolvePath(childItem.path)">
-          <i :class="childItem.meta.icon ? childItem.meta.icon : ''"></i>
-          <span slot="title">{{ childItem.meta.title }}</span>
-        </el-menu-item>
-      </page-link>
-    </template>
-    <el-submenu v-else :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
+  <div class="sideItem">
+    <el-submenu :index="resolvePath(item.path)" v-if="item.children" popper-append-to-body>
+      <template slot="title" v-if="item.meta">
         <i :class="item.meta.icon ? item.meta.icon : ''"></i>
         <span>{{ item.meta.title }}</span>
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :item="child"
-        :basePath="resolvePath(child.path)"
-      ></sidebar-item>
+      <!--  递归调用子组件    -->
+      <sidebar-item v-for="cItem in item.children" :key="cItem.path" :item="cItem" :basePath="item.path"></sidebar-item>
     </el-submenu>
+    <page-link v-else :to="resolvePath(item.path)">
+      <el-menu-item :index="resolvePath(item.path)" v-if="item.meta">
+        <i :class="item.meta.icon ? item.meta.icon : ''"></i>
+        <span>{{ item.meta.title }}</span>
+      </el-menu-item>
+    </page-link>
   </div>
 </template>
 
@@ -39,33 +33,7 @@
         default: ''
       }
     },
-    data() {
-      return {
-        childItem: null
-      }
-    },
     methods: {
-      hasOnlyChild(children = [], item) {
-        // debugger
-        let newChildren = children.filter(obj => {
-          if (obj.hidden) {
-            return false
-          } else {
-            return true
-          }
-        })
-        console.log(newChildren.length + 1)
-        if (newChildren.length === 1 && !item.meta) {
-          this.childItem = newChildren[0]
-          return true
-        }
-        if (newChildren.length === 0) {
-          this.childItem = { ...item, path: '', noChild: true }
-          return true
-        }
-        console.log('aaa')
-        return false
-      },
       resolvePath(router) {
         if (isAbsolutePath(router)) {
           return router

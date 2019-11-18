@@ -12,15 +12,6 @@ module.exports = {
   chainWebpack: (config) => {
     // 修复热更新
     config.resolve.symlinks(true)
-
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
-      .tap(options => {
-        // 修改它的选项...
-        return options
-      })
   },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {

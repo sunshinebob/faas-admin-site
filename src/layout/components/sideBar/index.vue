@@ -12,7 +12,7 @@
         :collapse="opened"
       >
         <sidebar-item
-          v-for="item in getRoutes()"
+          v-for="item in routes"
           :key="item.path"
           :item="item"
           :basePath="item.path"
@@ -25,17 +25,11 @@
 <script>
   import SidebarItem from './SideBarItem'
   import { mapGetters } from 'vuex'
-  import { routes } from '../../../router'
 
   export default {
     components: { SidebarItem },
-    methods: {
-      getRoutes() {
-        return routes
-      }
-    },
     computed: {
-      ...mapGetters(['opened']),
+      ...mapGetters(['opened', 'routes']),
       // booleanOpen() {
       //   return this.opened === 'true' ? true : false
       // },

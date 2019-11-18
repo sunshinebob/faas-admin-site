@@ -1,6 +1,7 @@
 @import './variable.scss';
 @import './layout.scss';
 @import './transition.scss';
+@import './element-ui.scss';
 
 html {
   height: 100%;
@@ -134,5 +135,24 @@ body {
     color: #ffc107;
     font-size: 22px;
     margin-top: 2px;
+  }
+}
+
+.fyDiv {
+  float: right;
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
+.operate-div {
+  margin-bottom: 20px;
+}
+
+.diaForm {
+  .el-input {
+    width: 350px;
+  }
+  .el-textarea {
+    width: 350px;
   }
 }
